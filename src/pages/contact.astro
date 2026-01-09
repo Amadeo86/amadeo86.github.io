@@ -1,0 +1,222 @@
+---
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import { siteConfig, aboutContent } from "../config/content.ts";
+import '../styles/global.css';
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Contacto - Ramón Amadeo</title>
+    <meta name="description" content="Ponte en contacto conmigo para colaborar o simplemente saludar" />
+    <script is:inline>
+      (function () {
+        const savedTheme = localStorage.getItem("theme") || "dark";
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        const initialTheme =
+          savedTheme === "system"
+            ? prefersDark
+              ? "dark"
+              : "light"
+            : savedTheme;
+
+        if (initialTheme === "dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      })();
+    </script>
+  </head>
+  <body
+    class="min-h-screen flex flex-col bg-white dark:bg-neutral-900 transition-colors duration-300"
+  >
+    <div class="relative flex-grow flex flex-col">
+      <Navigation />
+      <main class="flex-grow">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <!-- Encabezado -->
+          <div class="mb-12">
+            <h1
+              class="text-4xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100 mb-4"
+            >
+              {aboutContent.connect.title}
+            </h1>
+            <p
+              class="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl"
+            >
+              {aboutContent.connect.description} <a
+                href={aboutContent.connect.email.href}
+                class="font-medium text-neutral-900 dark:text-neutral-100 hover:underline"
+              >
+                {aboutContent.connect.email.text}
+              </a>.
+            </p>
+          </div>
+
+          <!-- Grid de Contacto -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <!-- Email -->
+            <a
+              href={aboutContent.connect.email.href}
+              class="group p-6 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300"
+            >
+              <div class="flex items-start gap-4">
+                <div
+                  class="p-3 bg-neutral-100 dark:bg-neutral-700 rounded-lg group-hover:bg-neutral-900 dark:group-hover:bg-neutral-100 transition-colors"
+                >
+                  <svg
+                    class="w-6 h-6 text-neutral-900 dark:text-neutral-100 group-hover:text-white dark:group-hover:text-neutral-900"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3
+                    class="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-1"
+                  >
+                    Email
+                  </h3>
+                  <p class="text-neutral-600 dark:text-neutral-400">
+                    ramonaamadeo@gmail.com
+                  </p>
+                </div>
+              </div>
+            </a>
+
+            <!-- GitHub -->
+            <a
+              href={siteConfig.social.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group p-6 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300"
+            >
+              <div class="flex items-start gap-4">
+                <div
+                  class="p-3 bg-neutral-100 dark:bg-neutral-700 rounded-lg group-hover:bg-neutral-900 dark:group-hover:bg-neutral-100 transition-colors"
+                >
+                  <svg
+                    class="w-6 h-6 text-neutral-900 dark:text-neutral-100 group-hover:text-white dark:group-hover:text-neutral-900"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3
+                    class="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-1"
+                  >
+                    GitHub
+                  </h3>
+                  <p class="text-neutral-600 dark:text-neutral-400">
+                    Ver mi código en GitHub
+                  </p>
+                </div>
+              </div>
+            </a>
+
+            <!-- LinkedIn -->
+            <a
+              href="https://linkedin.com/in/ramonaamadeo"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group p-6 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300"
+            >
+              <div class="flex items-start gap-4">
+                <div
+                  class="p-3 bg-neutral-100 dark:bg-neutral-700 rounded-lg group-hover:bg-neutral-900 dark:group-hover:bg-neutral-100 transition-colors"
+                >
+                  <svg
+                    class="w-6 h-6 text-neutral-900 dark:text-neutral-100 group-hover:text-white dark:group-hover:text-neutral-900"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.475-2.236-1.986-2.236-1.081 0-1.722.731-2.004 1.438-.103.249-.129.597-.129.946v5.421h-3.554s.05-8.736 0-9.646h3.554v1.348c-.009.015-.022.029-.033.042h.033v-.042c.418-.645 1.162-1.554 2.829-1.554 2.064 0 3.614 1.347 3.614 4.25v5.552zM5.337 8.855c-1.144 0-1.915-.758-1.915-1.704 0-.951.77-1.704 1.916-1.704.045 0 .09 0 .135.003 1.146 0 1.916.753 1.916 1.704 0 .946-.77 1.704-1.916 1.704zm1.536 11.597H3.826V9.671h2.876v10.781zM22.094 0H1.906C.851 0 0 .851 0 1.906v20.188C0 23.149.851 24 1.906 24h20.188c1.055 0 1.906-.851 1.906-1.906V1.906C24 .851 23.149 0 22.094 0"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3
+                    class="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-1"
+                  >
+                    LinkedIn
+                  </h3>
+                  <p class="text-neutral-600 dark:text-neutral-400">
+                    Conectemos profesionalmente
+                  </p>
+                </div>
+              </div>
+            </a>
+
+            <!-- Twitter/X -->
+            <a
+              href={siteConfig.social.twitter}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group p-6 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-300"
+            >
+              <div class="flex items-start gap-4">
+                <div
+                  class="p-3 bg-neutral-100 dark:bg-neutral-700 rounded-lg group-hover:bg-neutral-900 dark:group-hover:bg-neutral-100 transition-colors"
+                >
+                  <svg
+                    class="w-6 h-6 text-neutral-900 dark:text-neutral-100 group-hover:text-white dark:group-hover:text-neutral-900"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.514l-5.106-6.67-5.856 6.67H2.306l7.644-8.74L.254 2.25h6.554l4.615 6.108L17.868 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3
+                    class="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-1"
+                  >
+                    Twitter
+                  </h3>
+                  <p class="text-neutral-600 dark:text-neutral-400">
+                    Sígueme para mis últimas actualizaciones
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Mensaje -->
+          <div
+            class="bg-neutral-50 dark:bg-neutral-800 rounded-lg p-8 text-center"
+          >
+            <h2 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+              ¿Listo para crear algo increíble juntos?
+            </h2>
+            <p class="text-neutral-600 dark:text-neutral-400 mb-6">
+              Siempre estoy abierto a nuevas oportunidades, proyectos innovadores
+              y colaboraciones significativas. Envíame un mensaje y hablemos sobre
+              cómo podemos trabajar juntos.
+            </p>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

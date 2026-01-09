@@ -1,0 +1,119 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+}
+
+const { 
+  title = 'Ramón Amadeo | Tech con Impacto', 
+  description = 'Técnico en Sistemas, innovador frugal y creador de soluciones tech para desarrollo local.',
+  canonical,
+  image = '/assets/images/og-image.jpg' 
+} = Astro.props;
+
+const siteUrl = 'https://amadeo86.github.io';
+const fullTitle = `${title}`;
+const ogImage = new URL(image, siteUrl).href;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags -->
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
+    <meta name="description" content={description} />
+    <meta name="author" content="Ramón Amadeo Escudero" />
+    <meta 
+      name="keywords" 
+      content="desarrollo software, innovación frugal, economía circular, CNC, Arduino, Java, Spring Boot, Flutter, Salta, Las Lajitas, tech" 
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="Spanish" />
+    <meta name="revisit-after" content="7 days" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="Portfolio de Ramón Amadeo - Innovación tecnológica" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content="Ramón Amadeo | Tech con Impacto" />
+    
+    <!-- Twitter / X -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={siteUrl} />
+    <meta property="twitter:title" content={fullTitle} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={ogImage} />
+    <meta property="twitter:creator" content="@ramona86" />
+    
+    <!-- Canonical URL -->
+    {canonical && (
+      <link rel="canonical" href={new URL(canonical, siteUrl).href} />
+    )}
+    {!canonical && (
+      <link rel="canonical" href={siteUrl} />
+    )}
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    
+    <!-- Sitemap -->
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+    
+    <!-- Preconnect para fuentes externas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Google Fonts -->
+    <link 
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" 
+      rel="stylesheet" 
+    />
+    
+    <!-- Theme detection script -->
+    <script is:inline>
+      (function () {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const initialTheme =
+          savedTheme === 'system'
+            ? prefersDark
+              ? 'dark'
+              : 'light'
+            : savedTheme;
+
+        if (initialTheme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+  </head>
+  
+  <body class="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 transition-colors duration-300">
+    <slot />
+    
+    <!-- Analytics Script (opcional - descomentar si usas) -->
+    <script>
+      // Google Analytics o similar (descomentar después de configurar)
+      // if (location.hostname !== 'localhost') {
+      //   console.log('Sitio en producción');
+      // }
+    </script>
+  </body>
+</html>

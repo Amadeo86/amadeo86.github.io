@@ -1,0 +1,203 @@
+---
+import Navigation from "../../components/Navigation.astro";
+import Footer from "../../components/Footer.astro";
+import { projectsContent } from "../../config/content.ts";
+import '../../styles/global.css';
+
+const proyecto = projectsContent.projects.find((p) => p.id === 1);
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{proyecto?.title} - Ramón Amadeo</title>
+    <meta name="description" content={proyecto?.description} />
+  </head>
+  <body
+    class="min-h-screen flex flex-col bg-white dark:bg-neutral-900 transition-colors duration-300"
+  >
+    <div class="relative flex-grow flex flex-col">
+      <Navigation />
+      <main class="flex-grow">
+        <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <!-- Breadcrumb -->
+          <div class="flex items-center gap-2 mb-8 text-sm text-neutral-600 dark:text-neutral-400">
+            <a href="/projects/" class="hover:text-neutral-900 dark:hover:text-neutral-100">
+              Proyectos
+            </a>
+            <span>/</span>
+            <span>{proyecto?.title}</span>
+          </div>
+
+          <!-- Header -->
+          <div class="mb-8">
+            <span class="inline-block bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200 text-sm font-semibold px-4 py-2 rounded-full mb-4">
+              {proyecto?.categoria}
+            </span>
+            <h1
+              class="text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-4"
+            >
+              {proyecto?.title}
+            </h1>
+            <p class="text-xl text-neutral-600 dark:text-neutral-400">
+              {proyecto?.description}
+            </p>
+          </div>
+
+          <!-- Imagen principal -->
+          <div class="mb-12 rounded-lg overflow-hidden">
+            <img
+              src={proyecto?.image}
+              alt={proyecto?.title}
+              class="w-full h-96 object-cover"
+            />
+          </div>
+
+          <!-- Contenido -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div class="lg:col-span-2">
+              <!-- Descripción extendida -->
+              <section class="mb-12">
+                <h2 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+                  Sobre el proyecto
+                </h2>
+                <p class="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+                  {proyecto?.details?.longDescription}
+                </p>
+              </section>
+
+              <!-- Tecnologías -->
+              <section class="mb-12">
+                <h2 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+                  Tecnologías utilizadas
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {
+                    proyecto?.technologies?.map((tech) => (
+                      <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+                        <p class="font-semibold text-blue-700 dark:text-blue-300">
+                          {tech}
+                        </p>
+                      </div>
+                    ))
+                  }
+                </div>
+              </section>
+
+              <!-- Galería -->
+              {
+                proyecto?.details?.gallery && (
+                  <section class="mb-12">
+                    <h2 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+                      Galería
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {proyecto.details.gallery.map((img) => (
+                        <img
+                          src={img}
+                          alt="Galería"
+                          class="rounded-lg w-full h-64 object-cover"
+                        />
+                      ))}
+                    </div>
+                  </section>
+                )
+              }
+            </div>
+
+            <!-- Sidebar -->
+            <aside>
+              <!-- Información clave -->
+              <div class="bg-neutral-50 dark:bg-neutral-800 rounded-lg p-6 mb-6">
+                <h3 class="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+                  Información del Proyecto
+                </h3>
+                <div class="space-y-4">
+                  {
+                    proyecto?.details?.fecha && (
+                      <div>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                          Período
+                        </p>
+                        <p class="font-semibold text-neutral-900 dark:text-neutral-100">
+                          {proyecto.details.fecha}
+                        </p>
+                      </div>
+                    )
+                  }
+                  {
+                    proyecto?.details?.impacto && (
+                      <div>
+                        <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                          Impacto
+                        </p>
+                        <p class="font-semibold text-neutral-900 dark:text-neutral-100">
+                          {proyecto.details.impacto}
+                        </p>
+                      </div>
+                    )
+                  }
+                </div>
+              </div>
+
+              <!-- Enlaces -->
+              {
+                (proyecto?.details?.links?.tienda ||
+                  proyecto?.details?.links?.video) && (
+                  <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6">
+                    <h3 class="text-lg font-bold text-green-900 dark:text-green-100 mb-4">
+                      Enlaces
+                    </h3>
+                    <div class="space-y-3">
+                      {proyecto.details.links?.tienda && (
+                        <a
+                          href={proyecto.details.links.tienda}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="flex items-center gap-2 text-green-700 dark:text-green-300 hover:underline"
+                        >
+                          🛍️ Ver tienda →
+                        </a>
+                      )}
+                      {proyecto.details.links?.video && (
+                        <a
+                          href={proyecto.details.links.video}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="flex items-center gap-2 text-green-700 dark:text-green-300 hover:underline"
+                        >
+                          🎬 Ver video →
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                )
+              }
+            </aside>
+          </div>
+
+          <!-- CTA siguiente proyecto -->
+          <div class="mt-16 pt-8 border-t border-neutral-200 dark:border-neutral-700">
+            <div
+              class="bg-neutral-50 dark:bg-neutral-800 rounded-lg p-8 text-center"
+            >
+              <h2 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
+                Otros Proyectos
+              </h2>
+              <a
+                href="/projects/"
+                class="inline-flex items-center gap-2 px-6 py-3 bg-neutral-900 dark:bg-neutral-100 text-white dark:text-neutral-900 font-medium rounded-lg hover:scale-105 transition-transform"
+              >
+                Ver más proyectos →
+              </a>
+            </div>
+          </div>
+        </article>
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>
