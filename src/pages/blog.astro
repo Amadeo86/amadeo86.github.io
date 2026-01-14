@@ -1,0 +1,232 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getAllPosts, getPostBySlug } from "../utils/getPosts";
+
+const allPosts = getAllPosts();
+const sortedPosts = allPosts.sort(
+  (a, b) =>
+    new Date(b.date).getTime() -
+    new Date(a.date).getTime()
+);
+
+// Enriquecer posts con información adicional del frontmatter
+const enrichedPosts = sortedPosts.map((post) => {
+  const fullPost = getPostBySlug(post.slug);
+  return {
+    ...post,
+    category: fullPost?.frontmatter.category || "Sin categoría",
+    tags: fullPost?.frontmatter.tags || [],
+    author: fullPost?.frontmatter.author || "Ramón Amadeo",
+  };
+});
+
+// Agrupar posts por categoría
+const postsByCategory = enrichedPosts.reduce(
+  (acc, post) => {
+    const category = post.category || "Sin categoría";
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(post);
+    return acc;
+  },
+  {} as Record<string, any[]>
+);
+
+const categories = Object.keys(postsByCategory).sort();
+const pageTitle = "Blog | Ramón Amadeo - Innovación Tecnológica";
+const pageDescription =
+  "Artículos sobre desarrollo, arquitectura, hardware, y la intersección entre innovación y negocio.";
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonical="https://amadeo86.github.io/blog/"
+>
+  <div class="min-h-screen bg-white dark:bg-slate-950">
+    <!-- Hero section -->
+    <section
+      class="bg-gradient-to-br from-primary-50 to-accent-50 dark:from-slate-900 dark:to-slate-800 py-16 md:py-24"
+    >
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl">
+          <h1 class="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
+            Blog
+          </h1>
+          <p class="text-xl text-slate-600 dark:text-slate-300 mb-6">
+            Reflexiones, tutoriales y análisis sobre desarrollo de software,
+            arquitectura, hardware, y cómo la innovación y el código impactan en
+            negocios reales.
+          </p>
+          <p class="text-base text-slate-500 dark:text-slate-400">
+            {allPosts.length} artículos publicados • Actualizados regularmente
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Posts grid by category -->
+    <section class="py-16 md:py-24">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        {
+          categories.map((category) => (
+            <div class="mb-16">
+              {/* Category header */}
+              <div class="flex items-center gap-3 mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
+                  {category}
+                </h2>
+                <span class="bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-200 px-3 py-1 rounded-full text-sm font-medium">
+                  {postsByCategory[category].length}
+                </span>
+              </div>
+
+              {/* Posts grid */}
+              <div class="grid gap-6 md:gap-8">
+                {postsByCategory[category].map((post) => (
+                  <article
+                    class="group bg-white dark:bg-slate-800 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-primary-300 dark:hover:border-primary-700 hover:shadow-lg transition-all duration-300"
+                  >
+                    <div class="md:flex">
+                      {/* Image */}
+                      {post.image && (
+                        <div class="md:w-1/3 flex-shrink-0 overflow-hidden">
+                          <img
+                            src={post.image}
+                            alt={post.title}
+                            class="w-full h-48 md:h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      )}
+
+                      {/* Content */}
+                      <div class={`p-6 md:p-8 ${post.image ? "md:w-2/3" : "w-full"}`}>
+                        {/* Meta */}
+                        <div class="flex flex-wrap items-center gap-3 mb-3">
+                          <time class="text-sm text-slate-500 dark:text-slate-400">
+                            {new Date(
+                              post.date
+                            ).toLocaleDateString("es-ES", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })}
+                          </time>
+                          {post.readTime && (
+                            <>
+                              <span class="text-slate-300 dark:text-slate-600">
+                                •
+                              </span>
+                              <span class="text-sm text-slate-500 dark:text-slate-400">
+                                {post.readTime}
+                              </span>
+                            </>
+                          )}
+                        </div>
+
+                        {/* Title */}
+                        <h3 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                          <a href={`/posts/${post.slug}`}>
+                            {post.title}
+                          </a>
+                        </h3>
+
+                        {/* Description */}
+                        <p class="text-slate-600 dark:text-slate-300 mb-4 line-clamp-2">
+                          {post.description}
+                        </p>
+
+                        {/* Tags */}
+                        {post.tags &&
+                          post.tags.length > 0 && (
+                            <div class="flex flex-wrap gap-2 mb-4">
+                              {post.tags.slice(0, 3).map((tag) => (
+                                <span class="text-xs bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-1 rounded">
+                                  #{tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+
+                        {/* CTA */}
+                        <a
+                          href={`/posts/${post.slug}`}
+                          class="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-semibold hover:gap-3 transition-all duration-200 group/link"
+                        >
+                          Leer artículo completo
+                          <svg
+                            class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M9 5l7 7-7 7"
+                            />
+                          </svg>
+                        </a>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Subscribe CTA -->
+    <section
+      class="bg-gradient-to-r from-primary-600 to-accent-600 dark:from-primary-700 dark:to-accent-700 py-16 md:py-24"
+    >
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-2xl text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+          ¿Quieres recibir actualizaciones?
+        </h2>
+        <p class="text-primary-100 mb-8">
+          Nuevos artículos sobre desarrollo, arquitectura y cómo escalar
+          aplicaciones. Publicado regularmente.
+        </p>
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-primary-50 transition-colors duration-200"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            />
+          </svg>
+          Contacta para actualizaciones
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-12">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="text-center text-slate-600 dark:text-slate-400">
+          Última actualización: {
+            new Date(sortedPosts[0]?.date || Date.now()).toLocaleDateString("es-ES", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          }
+        </p>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
